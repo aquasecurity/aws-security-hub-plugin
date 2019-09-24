@@ -14,14 +14,18 @@ The script manages the entire installation process including creating IAM Role w
 - ECS Fargate cluster to run the enabler 
 
 ### Before deployment
-1.	Obtain Docker image with the required log-collector version.
+1. Pull the AWS log-collector image from Aqua's repository and push to  ECR. The CloudFormation template will later push this image to your ECS Fargate cluster:
+		a. Login to the Aqua Registry with your Aqua credentials: docker login registry.aquasec.com -u <AQUA_USERNAME> -p <AQUA_PASSWORD>
+		b. Pull the AWS log-collector image with the commands - docker pull aquasec/log-collector:aws-1.4
+    c. Push the image to ECR  
 2.	Make sure that the Aqua database is available through the standard Postgresql port: 5432
 
 ### Deployment: CloudFormation Management Console
 1.	Click the Launch Stack icon at the top of this README.md file. This will take you to the Create stack function of the AWS CloudFormation Management Console.
-2.	Ensure that your AWS region is set to where you want to deploy the script.
-3.	Click “Next”.
-4.	Set or modify any of the parameters below:
+2.  Load the CF template in this repository - secHubEcs.yaml
+3.	Ensure that your AWS region is set to where you want to deploy the script.
+4.	Click “Next”.
+5.	Set or modify any of the parameters below:
 - DockerImage = the path to the log-forwarder image 
 - ContainerCpu = CPU "size"; 1024 = 1 full CPU  
 - ContainerMemory = Memory size in megabytes 
@@ -32,9 +36,9 @@ The script manages the entire installation process including creating IAM Role w
 - ProductARN = string with AWS Product amazon resource name or ARN (i.e "arn:aws:securityhub:<region>:<account-id>:product/<account-id>/default")
 - ECSCluster  = The name of the ECSCluster to host the log-forwarder image
 - LogGroupName = Enter log group name for the log-forwarder
-5.	Click “Next” to create the stack.
-6.	Acknowledge that the new IAM role will be created automatically while deploying the script
-7.	Run the AWS create-stack CLI command.
+6.	Click “Next” to create the stack.
+7.	Acknowledge that the new IAM role will be created automatically while deploying the script
+8.	Run the AWS create-stack CLI command.
 Deployment time depends on the bootstrap time of the application inside the Docker image.
 
 ### Validate deployment
