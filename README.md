@@ -26,7 +26,7 @@ The script manages the entire installation process including creating IAM Role w
 3.	Ensure that your AWS region is set to where you want to deploy the script.
 4.	Click “Next”.
 5.	Set or modify any of the parameters below:
-    - DockerImage = the path to the log-forwarder image 
+    - DockerImage = the path to the log-collector image on ECR 
     - ContainerCpu = CPU "size"; 1024 = 1 full CPU  
     - ContainerMemory = Memory size in megabytes 
     - VPC = ID of the VPC where the script will be deployed 
@@ -45,7 +45,7 @@ Deployment time depends on the bootstrap time of the application inside the Dock
 To validate the integration, go to the Aqua Security console and choose to scan a few of the images. The scanning results for these images should be sent as findings to the AWS Security Hub.
 
 ### Troubleshooting 
-You can check the log-forwarder logs for errors through the ECS Cluster console view. 
-For support issues and questions please send an email to - community.plugins@aquasec.com. 
+You can check the log-collector logs for errors through the ECS Cluster console view. 
+For support issues and questions please contact us at - community.plugins@aquasec.com. 
 
 
