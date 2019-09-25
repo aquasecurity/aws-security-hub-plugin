@@ -1,4 +1,4 @@
-# aws-security-hub-plugin
+# AQUA AWS Security Hub Plugin
 ## A plug-in to enable integration with AWS Security Hub
 
 ### Description
