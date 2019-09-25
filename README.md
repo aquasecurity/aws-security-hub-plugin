@@ -1,4 +1,4 @@
-[![Launch Stack](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=aqua-sec-hub&templateURL=https://raw.githubusercontent.com/aquasecurity/aws-security-hub-plugin/master/secHubEcs.yaml)
+[![Launch Stack](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home)
 
 # AWS Security Hub Plugin
 ## A plug-in to enable integration with AWS Security Hub
