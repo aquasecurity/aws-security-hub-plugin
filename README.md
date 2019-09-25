@@ -3,7 +3,7 @@
 
 ### Description
 The Aqua Security integration with AWS Security Hub is enabled via a log-forwarder enabler that fetches security events from Aqua and pushes them to the AWS Security Hub.
-The log-forward component is installed using a CloudFormation script available in GitHub. 
+The log-forwarder component is installed using a CloudFormation script available in GitHub. 
 This script deploys the log-forwarded computing instance inside ECS Fargate and connects it with both an Aqua instance and the AWS Security Hub.
 The script manages the entire installation process including creating IAM Role with the permission to read and write data from/to the AWS Security Hub and attaches this role to the created instance (task).
 
@@ -46,3 +46,6 @@ To validate the integration, go to the Aqua Security console and choose to scan 
 
 ### Troubleshooting 
 You can check the log-forwarder logs for errors through the ECS Cluster console view. 
+For support issues and questions please send an email to - community.plugins@aquasec.com. 
+
+
