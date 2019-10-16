@@ -1,0 +1,33 @@
+AWS Security Hub is a security and compliance service that became generally available on June 25, 2019. It provides you with extensive visibility into your security and compliance status across multiple AWS accounts, in a single dashboard per region. The service helps you monitor critical settings to ensure that your AWS accounts remain secure, allowing you to notice and react quickly to any changes in your environment.
+
+AWS Security Hub aggregates, organizes, and prioritizes security findings from supported AWS services—that’s Amazon GuardDuty, Amazon Inspector, and Amazon Macie at the time this post was published—and from various AWS partner security solutions. AWS Security Hub also generates its own findings, based on automated, resource-level and account-level configuration and compliance checks using service-linked AWS Config rules plus other analytic techniques. These checks help you keep your AWS accounts compliant with industry standards and best practices, such as the Center for Internet Security (CIS) AWS Foundations standard.
+
+In this post, I’ll provide nine best practices to help you use AWS Security Hub as effectively as possible.
+
+1. Use the AWS Labs script to turn on Security Hub in all your AWS accounts in all regions and to establish your existing Amazon GuardDuty master/member hierarchy
+As a best practice, you should continuously monitor all regions across all of your AWS accounts for unauthorized behavior or misconfigurations, even in regions that you don’t use heavily. AWS already recommends that you do this when using monitoring services like AWS Config and AWS CloudTrail. I recommend that you enable Security Hub in every region available in your AWS accounts.
+
+In addition, you can also invite other AWS accounts to enable Security Hub and share findings with your AWS account. If you send an invitation and it is accepted by the other account owner, your Security Hub account is designated as the master account, and any associated Security Hub accounts become your member accounts. Users from the master account will then be able to view Security Hub findings from member accounts.
+
+To simplify these configurations, you can utilize the AWS Labs script available on GitHub, which provides a step-by-step guide to automate this process. This script allows you to enable (and disable) AWS Security Hub simultaneously across a list of associated AWS accounts and bulk-add them to become your Security Hub members; it sends invitations from the master account and automatically accepts invitations in all member accounts. To run the script, you must have the AWS account IDs and root email addresses of the AWS accounts that you want as your Security Hub members. (Note that you should only share your root email address and account ID with AWS accounts that you trust. Visit the IAM best practices page to learn more about how to keep access to your AWS accounts secured.)
+
+By default, the Security Hub master/member association is independent of the relationships that you’ve established between your Amazon GuardDuty or Amazon Macie accounts and other associated accounts. If you have an existing master/member hierarchy in GuardDuty or Macie, you can export that list of accounts into a CSV file and then use it with the script. For example in GuardDuty, use the ListMembers API to export the AWS Account ID and email of all member accounts, as follows:
+
+aws guardduty list-members --detector-id <Detector ID> --query "Members[].[AccountId, Email]" --output text | awk '{print $1 "," $2}'
+
+The output of the above command will be your GuardDuty member account IDs and their corresponding root email addresses, one per line and separated with a comma as shown below:
+
+12345678910,abc@example.com
+98765432101,xyz@example.com
+
+2. Enable AWS Config in all AWS accounts and regions and leave the AWS CIS Foundations standard check enabled
+When you enable Security Hub in any region, the AWS CIS standard checks are enabled by default. I recommend leaving them enabled; they are important security measures that are applicable to all AWS accounts.
+
+To run most of these checks, Security Hub uses service-linked AWS Config rules. Because of this, you should make sure that AWS Config is turned on and recording all supported resources, including global resources, in all accounts and regions where Security Hub is deployed. You are not charged by AWS Config for these service-linked rules. You are only charged via Security Hub’s pricing model.
+
+3. Use specific managed IAM policies for different types of Security Hub users
+You can choose to allow a large group of users to access List and Read Security Hub actions, which will permit them to view your security findings. However, you should allow only a small group of users to access the Security Hub Write actions. This will permit only authorized users to archive, resolve, or remediate the findings.
+
+You can use AWS managed policies to give your employees the permissions they need to get started. These policies are already available in your account and are maintained and updated by AWS. To grant more granular permission to your Security Hub users, I recommend that you create your own customer managed policies. A great place to start with this is to import an existing AWS managed policy. That way, you know that the policy is initially correct, and all you need to do is customize it for your environment.
+
+AWS categorizes each service action into one of five access levels based on what each action does: List, Read, Write, Permissions management, or Tagging. To determine which access level to include in the IAM policies that you assign to your users, you can view the policy summary by navigating from the IAM Console to Policies, then selecting any AWS managed or customer managed policy.
