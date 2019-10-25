@@ -2,9 +2,9 @@
 
 # AWS Security Hub Plugin
 ## A plug-in to enable integration with AWS Security Hub
->
+
 > _AWS Security Hub Plugin is compatible with Aqua Cloud Native Security Platform 4.x_
->
+
 ### Description
 The Aqua Security integration with AWS Security Hub is enabled via a log-forwarder enabler that fetches security events from Aqua and pushes them to the AWS Security Hub.
 The log-forwarder component is installed using a CloudFormation script available in GitHub. 
