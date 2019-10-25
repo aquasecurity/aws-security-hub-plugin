@@ -43,9 +43,9 @@ Aqua reports the following security events to the Security Hub -
     - ContainerMemory = Memory size in megabytes 
     - VPC = ID of the VPC where the script will be deployed 
     - CIDR = CIDR for the newly created subnet inside selected VPC. Must be within selected VPC CIDR range 
-    - DBConnectionString = Postgresql URI formatted connection string for Aqua's audit DB (e.g. postgresql://{hostname or ip}:5432/slk_audit?user=postgres&password={db-password})
+    - DBConnectionString = Postgresql URI formatted connection string for Aqua's audit DB (e.g. _postgresql://{hostname or ip}:5432/slk_audit?user=postgres&password={db-password}_)
     - OutputAWSAccountID = string with AWS account id (for example, "123456789012")
-    - ProductARN = string with AWS Product amazon resource name or ARN (i.e "arn:aws:securityhub:<region>:<account-id>:product/<account-id>/default")
+    - ProductARN = string with AWS Product amazon resource name or ARN (i.e _"arn:aws:securityhub:<region>:<account-id>:product/<account-id>/default"_)
     - ECSCluster  = The name of the ECSCluster to host the log-forwarder image
     - LogGroupName = Enter log group name for the log-forwarder
 6.	Click “Next” to create the stack.
