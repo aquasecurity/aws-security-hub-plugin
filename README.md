@@ -56,8 +56,16 @@ Deployment time depends on the bootstrap time of the application inside the Dock
 ### Validate deployment
 To validate the integration, go to the Aqua Security console and choose to scan a few of the images. The scanning results for these images should be sent as findings to the AWS Security Hub.
 
-### Troubleshooting 
+### Troubleshooting and Support
 You can check the log-collector logs for errors through the ECS Cluster console view. 
-For support issues and questions please contact us at - community.plugins@aquasec.com. 
+**For support and questions please contact us at - community.plugins@aquasec.com.**
+
+
+
+
+
+
+
+
 
 
