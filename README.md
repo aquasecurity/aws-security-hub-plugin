@@ -9,7 +9,17 @@ The log-forwarder component is installed using a CloudFormation script available
 This script deploys the log-forwarded computing instance inside ECS Fargate and connects it with both an Aqua instance and the AWS Security Hub.
 The script manages the entire installation process including creating IAM Role with the permission to read and write data from/to the AWS Security Hub and attaches this role to the created instance (task).
 
-### Requirements
+### Events reported to Security Hub
+Aqua reports the following security events to the Security Hub -
+
+- Images that failed the security scan and are non-compliant 
+- Attempts to push non-complaint or unregistered images to the runtime environment
+- Suspicious or unauthorized activity in the container
+- Suspicious or unauthorized network activity at a container level 
+ 
+
+### Implementation Requirements
+
 - A VPC created
 - Existing VPC CIDR range for the new subnet
 - AWS Security Hub enabled
