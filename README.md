@@ -29,9 +29,9 @@ Aqua reports the following security events to the Security Hub -
 
 ### Before deployment
 1. Pull the AWS log-collector image from Aqua's repository and push to  ECR. The CloudFormation template will later push this image to your ECS Fargate cluster:
-   - Pull the AWS log-collector image with the commands: **docker pull aquasec/log-collector:aws-1.4**
+   - Pull the AWS log-collector image with the commands: `docker pull aquasec/log-collector:aws-1.4`
 2. Push the image to ECR
-   - Create an ECR Repo: `aws ecr create-repository --repository-name k8s/kube-bench --image-tag-mutability MUTABLE`
+   - Create an ECR Repo: `aws ecr create-repository --repository-name k8s/aqua-sechub --image-tag-mutability MUTABLE`
    - Tag & Push log-collector image:
    ```
    $(aws ecr get-login --no-include-email --region <AWS_REGION>)
