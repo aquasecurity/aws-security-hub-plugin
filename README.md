@@ -29,10 +29,16 @@ Aqua reports the following security events to the Security Hub -
 
 ### Before deployment
 1. Pull the AWS log-collector image from Aqua's repository and push to  ECR. The CloudFormation template will later push this image to your ECS Fargate cluster:
-   - Login to the Aqua Registry with your Aqua credentials: **docker login registry.aquasec.com -u <AQUA_USERNAME> -p <AQUA_PASSWORD>**
    - Pull the AWS log-collector image with the commands: **docker pull aquasec/log-collector:aws-1.4**
-   - Push the image to ECR  
-2.	Make sure that the Aqua database is available through the standard Postgresql port: 5432
+2. Push the image to ECR
+   - Create an ECR Repo: `aws ecr create-repository --repository-name k8s/kube-bench --image-tag-mutability MUTABLE`
+   - Tag & Push log-collector image:
+   ```
+   $(aws ecr get-login --no-include-email --region <AWS_REGION>)
+   docker tag aquasec/log-collector:aws-1.4 <ACCOUNT_ID>.dkr.ecr.<AWS_REGION>.amazonaws.com/k8s/aqua-sechub:latest
+   docker push <ACCOUNT_ID>.dkr.ecr.<AWS_REGION>.amazonaws.com/k8s/aqua-sechub:latest
+   ```
+3.	Make sure that the Aqua database is available through the standard Postgresql port: 5432
 
 ### Deployment: CloudFormation Management Console
 1.	Click the Launch Stack icon at the top of this README.md file. This will take you to the Create stack function of the AWS CloudFormation Management Console.
@@ -52,7 +58,6 @@ Aqua reports the following security events to the Security Hub -
     - LogGroupName = Enter log group name for the log-forwarder
 6.	Click “Next” to create the stack.
 7.	Acknowledge that the new IAM role will be created automatically while deploying the script
-8.	Run the AWS create-stack CLI command.
 Deployment time depends on the bootstrap time of the application inside the Docker image.
 
 ### Validate deployment
