@@ -46,16 +46,16 @@ Aqua reports the following security events to the Security Hub -
 3.	Ensure that your AWS region is set to where you want to deploy the script.
 4.	Click “Next”.
 5.	Set or modify any of the parameters below:
-    - DockerImage = the path to the log-collector image on ECR 
-    - ContainerCpu = CPU "size"; 1024 = 1 full CPU  
-    - ContainerMemory = Memory size in megabytes 
-    - VPC = ID of the VPC where the script will be deployed 
-    - CIDR = CIDR for the newly created subnet inside selected VPC. Must be within selected VPC CIDR range 
-    - DBConnectionString = Postgresql URI formatted connection string for Aqua's audit DB (e.g. _postgresql://{hostname or ip}:5432/slk_audit?user=postgres&password={db-password}_)
-    - OutputAWSAccountID = string with AWS account id (for example, "123456789012")
-    - ProductARN = string with AWS Product amazon resource name or ARN (i.e _"arn:aws:securityhub:<region>:<account-id>:product/<account-id>/default"_)
-    - ECSCluster  = The name of the ECSCluster to host the log-forwarder image
-    - LogGroupName = Enter log group name for the log-forwarder
+    - **DockerImage** = the path to the log-collector image on ECR 
+    - **ContainerCpu** = CPU "size"; 1024 = 1 full CPU  
+    - **ContainerMemory** = Memory size in megabytes 
+    - **VPC** = ID of the VPC where the script will be deployed 
+    - **CIDR** = CIDR for the newly created subnet inside selected VPC. Must be within selected VPC CIDR range 
+    - **DBConnectionString** = Postgresql URI formatted connection string for Aqua's audit DB (e.g. _postgresql://{hostname or ip}:5432/slk_audit?user=postgres&password={db-password}_)
+    - **OutputAWSAccountID** = string with AWS account id (for example, "123456789012")
+    - **ProductARN** = string with AWS Product amazon resource name or ARN (i.e _"arn:aws:securityhub:<region>:<account-id>:product/<account-id>/default"_)
+    - **ECSCluster**  = The name of the ECSCluster to host the log-forwarder image
+    - **LogGroupName** = Enter log group name for the log-forwarder
 6.	Click “Next” to create the stack.
 7.	Acknowledge that the new IAM role will be created automatically while deploying the script
 Deployment time depends on the bootstrap time of the application inside the Docker image.
