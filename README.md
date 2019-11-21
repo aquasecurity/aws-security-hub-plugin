@@ -45,7 +45,7 @@ _Example: Blocked an unauthorized program run_
 3.	Ensure that your AWS region is set to where you want to deploy the script.
 4.	Click “Next”.
 5.	Set or modify any of the parameters below:
-    - DockerImage = the path to the log-collector image on ECR 
+    - DockerImage = the path to the log-collector image on ECR (e.g. _<<account id>>.dkr.ecr.<<region>>.amazonaws.com/aquasec/log-collector:aws-1.4_)
     - ContainerCpu = CPU "size"; 1024 = 1 full CPU  
     - ContainerMemory = Memory size in megabytes 
     - VPC = ID of the VPC where the script will be deployed 
