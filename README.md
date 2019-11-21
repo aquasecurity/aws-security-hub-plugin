@@ -19,9 +19,14 @@ Aqua reports the following security events to the Security Hub -
 - Suspicious or unauthorized activity in the container
 - Suspicious or unauthorized network activity at a container level 
  
+_Example: Image scan revealred vulnerabilities_  
+![Image Scan Revealed Vulnerabilities](/images/Imagevulnerabilities.jpg)
+
+_Example: Blocked an unauthorized program run_ 
+![Blocked Unauthorized Program run](/images/blockprogram.jpg)
+
 
 ### Implementation Requirements
-
 - A VPC created
 - Existing VPC CIDR range for the new subnet
 - AWS Security Hub enabled
@@ -36,7 +41,7 @@ Aqua reports the following security events to the Security Hub -
 
 ### Deployment: CloudFormation Management Console
 1.	Click the Launch Stack icon at the top of this README.md file. This will take you to the Create stack function of the AWS CloudFormation Management Console.
-2.  Load the CF template in this repository - secHubEcs.yaml
+2. Load the CF template in this repository - **AwsSecHubEcsCF.yaml**
 3.	Ensure that your AWS region is set to where you want to deploy the script.
 4.	Click “Next”.
 5.	Set or modify any of the parameters below:
@@ -46,8 +51,6 @@ Aqua reports the following security events to the Security Hub -
     - VPC = ID of the VPC where the script will be deployed 
     - CIDR = CIDR for the newly created subnet inside selected VPC. Must be within selected VPC CIDR range 
     - DBConnectionString = Postgresql URI formatted connection string for Aqua's audit DB (e.g. _postgresql://{hostname or ip}:5432/slk_audit?user=postgres&password={db-password}_)
-    - OutputAWSAccountID = string with AWS account id (for example, "123456789012")
-    - ProductARN = string with AWS Product amazon resource name or ARN (i.e _"arn:aws:securityhub:<region>:<account-id>:product/<account-id>/default"_)
     - ECSCluster  = The name of the ECSCluster to host the log-forwarder image
     - LogGroupName = Enter log group name for the log-forwarder
 6.	Click “Next” to create the stack.
