@@ -61,7 +61,7 @@ _Example: Blocked an unauthorized program run_
 Deployment time depends on the bootstrap time of the application inside the Docker image.
 
 _Example: CloudFormation Stack Creation_ 
-![CloudFormation](/images/cloudformatoin.jpg)
+![CloudFormation](/images/cloudformation.jpg)
 
 ### Validate deployment
 To validate the integration, go to the Aqua Security console and choose to scan a few of the images. The scanning results for these images should be sent as findings to the AWS Security Hub.
