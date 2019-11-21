@@ -1,0 +1,133 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  DockerImage:
+    Type: String
+    Default: ''
+    Description: LogForwarder image name and full registry path
+  ContainerCpu:
+    Type: Number
+    Default: 256
+    Description: 1024 = 1 full CPU
+  ContainerMemory:
+    Type: Number
+    Default: 512
+    Description: Memory size in megabytes
+  VPC:
+    Type: 'AWS::EC2::VPC::Id'
+    Description: Select VPC
+  VpcSubnet:
+    Description: Select Subnet in VPC
+    Type: 'List<AWS::EC2::Subnet::Id>'
+    Default: ''
+  DBConnectionString:
+    Type: String
+    NoEcho: 'true'
+    Default: >-
+      postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]
+    Description: Database connectoin string (postgresql)
+  ECSCluster:
+    Type: String
+    Default: ''
+    Description: ECS Fargate cluster name to host the image 
+  LogGroupName:
+    Type: String
+    Default: /aqua/log-collector
+    Description: Enter log group name
+Resources:
+  CollectorLogs:
+    Type: 'AWS::Logs::LogGroup'
+    Properties:
+      LogGroupName: !Ref LogGroupName
+      RetentionInDays: 30
+  SHRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AWSSecurityHubFullAccess'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+                - ecs-tasks.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+  ECSTaskExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy'
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+  ECSSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref VPC
+      GroupDescription: Enable Postgres access
+      SecurityGroupEgress:
+        - IpProtocol: '-1'
+          CidrIp: 0.0.0.0/0
+  AquaLogcollector:
+    Type: 'AWS::ECS::Service'
+    DependsOn:
+      - MainTask
+      - ECSSecurityGroup
+    Properties:
+      Cluster: !Ref ECSCluster
+      DesiredCount: 1
+      TaskDefinition: !Ref MainTask
+      LaunchType: FARGATE
+      DeploymentConfiguration:
+        MaximumPercent: 100
+        MinimumHealthyPercent: 0
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups:
+            - !Ref ECSSecurityGroup
+          Subnets: !Ref VpcSubnet
+  MainTask:
+    Type: 'AWS::ECS::TaskDefinition'
+    DependsOn:
+      - SHRole
+      - ECSTaskExecutionRole
+      - CollectorLogs
+    Properties:
+      TaskRoleArn: !Ref SHRole
+      RequiresCompatibilities:
+        - FARGATE
+      NetworkMode: awsvpc
+      Cpu: !Ref ContainerCpu
+      ExecutionRoleArn: !Ref ECSTaskExecutionRole
+      Family: aqua-log-collector
+      Memory: !Ref ContainerMemory
+      ContainerDefinitions:
+        - Name: aqua-log-collector-main-task
+          Image: !Ref DockerImage
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref LogGroupName
+              awslogs-region: !Ref 'AWS::Region'
+              awslogs-stream-prefix: LogCollectorLog
+          PortMappings:
+            - ContainerPort: 5432
+              HostPort: 5432
+          Environment:
+            - Name: INPUT_PROPERTIES_CONNECTIONSTRING
+              Value: !Ref DBConnectionString
+            - Name: COMMON_STORAGE_PROPERTIES_CONNECTIONSTRING
+              Value: !Ref DBConnectionString
+            - Name: OUTPUT_PROPERTIES_AWSPRODUCTARN
+              Value: !Sub 'arn:aws:securityhub:${AWS::Region}::product/aquasecurity/aquasecurity'
+            - Name: OUTPUT_PROPERTIES_AWSACCOUNTID
+              Value: !Ref AWS::AccountId
