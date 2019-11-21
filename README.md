@@ -1,7 +1,7 @@
 [![Launch Stack](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home)
 
 # AWS Security Hub Plugin
-## Send Aqua's security findingds to the AWS Security Hub
+## Send Aqua's security findings to the AWS Security Hub
 
 > _AWS Security Hub Plugin is compatible with Aqua Cloud Native Security Platform 4.x_
 
