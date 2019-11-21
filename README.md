@@ -60,6 +60,9 @@ _Example: Blocked an unauthorized program run_
 8.	Run the AWS create-stack CLI command.
 Deployment time depends on the bootstrap time of the application inside the Docker image.
 
+_Example: CloudFormation Stack Creation_ 
+![CloudFormation](/images/cloudformatoin.jpg)
+
 ### Validate deployment
 To validate the integration, go to the Aqua Security console and choose to scan a few of the images. The scanning results for these images should be sent as findings to the AWS Security Hub.
 
