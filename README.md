@@ -35,7 +35,7 @@ _Example: Blocked an unauthorized program run_
 ### Before deployment
 1. Pull the AWS log-collector image from Aqua's repository and push to  ECR. The CloudFormation template will later push this image to your ECS Fargate cluster:
    - Login to the Aqua Registry with your Aqua credentials: **docker login registry.aquasec.com -u <AQUA_USERNAME> -p <AQUA_PASSWORD>**
-   - Pull the AWS log-collector image with the commands: **docker pull aquasec/log-collector:aws-1.5**
+   - Pull the AWS log-collector image with the commands: **docker pull registry.aquasec.com/log-collector:aws-1.5**
    - Push the image to ECR  
 2.	Make sure that the Aqua database is available through the standard Postgresql port: 5432
 
